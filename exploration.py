@@ -63,14 +63,31 @@ for idx, col in enumerate(data_castle_grouped.columns):
     sorted_col = data_castle_grouped[col].sort_values(ascending=asc)
 
     # create bar plot
-    ax.barh(sorted_col.index, sorted_col.values)
+    ax.barh(sorted_col.index, sorted_col.values, color="#26375e", zorder=2)
 
-    plt.title(f"Feature: {col}")
+    # formatting
+    ax.set_title(f"Feature: {col}")
+
+    # remove spines
+    ax.spines["right"].set_visible(False)
+    ax.spines["top"].set_visible(False)
+    ax.spines["left"].set_visible(False)
+    ax.spines["bottom"].set_visible(False)
+
+    # Draw vertical axis lines
+    vals = ax.get_xticks()
+    for tick in vals:
+        ax.axvline(
+            x=tick, linestyle="dashed", alpha=0.8, color="#eeeeee", zorder=1
+        )
+
+    # Set x-axis label
+    ax.set_xlabel(f"{col}", labelpad=20, size=10)
+
+    # Set y-axis label
+    ax.set_ylabel("Castle", labelpad=20, size=10)
 
 # save plot
 fig.savefig(
-        r"plots/stats_by_castle.png",
-        dpi=100,
-        bbox_inches="tight",
-        pad_inches=0,
-    )
+    r"plots/stats_by_castle.png", dpi=100, bbox_inches="tight", pad_inches=0
+)
