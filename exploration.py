@@ -56,7 +56,11 @@ for idx, col in enumerate(data_castle_grouped.columns):
     ax = fig.add_subplot(2, 4, idx + 1)
 
     # sorted values
-    sorted_col = data_castle_grouped[col].sort_values()
+    asc = True
+    if col == "Gold":
+        asc = False
+
+    sorted_col = data_castle_grouped[col].sort_values(ascending=asc)
 
     # create bar plot
     ax.barh(sorted_col.index, sorted_col.values)
