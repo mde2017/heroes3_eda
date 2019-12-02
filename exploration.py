@@ -8,6 +8,7 @@ Created on Sat Nov 30 18:40:33 2019
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 # import raw data
 data = pd.read_csv(r"data/H3Units.csv")
@@ -48,7 +49,30 @@ num_cols = [x for x in data.columns if data[x].dtype != "object"]
 str_cols = [x for x in data.columns if data[x].dtype == "object"]
 
 
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+
+
+# compute pearson correlations
+corr_matrix = data[num_cols].corr(method="pearson")
+
+# plot correlation matrix
+corrplot = sns.heatmap(
+    corr_matrix,
+    vmin=-1, vmax=1, center=0,
+    cmap=sns.diverging_palette(240, 10, n=200),
+    square=True
+)
+corrplot.set_xticklabels(
+    corrplot.get_xticklabels(),
+    rotation=45,
+    horizontalalignment='right'
+)
+
+# save corrplot as png
+corrplot.figure.savefig(r"plots/corrplot.png")
+
+# -----------------------------------------------------------------------------
+
 
 # analysis by castle
 num_cols_castle = num_cols
