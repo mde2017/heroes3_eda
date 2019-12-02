@@ -34,14 +34,21 @@ data["Level"] = (
 )
 
 # create new column ranged units (boolean)
-data["Ranged"] = data['Special_abilities'].map(lambda x: 1 if "Ranged" in x else 0)
+data["Ranged"] = data["Special_abilities"].map(
+    lambda x: 1 if "Ranged" in x else 0
+)
 
 # create new column flying units (boolean)
-data["Flying"] = data['Special_abilities'].map(lambda x: 1 if "Flying" in x else 0)
+data["Flying"] = data["Special_abilities"].map(
+    lambda x: 1 if "Flying" in x else 0
+)
 
 # filter columns by type
 num_cols = [x for x in data.columns if data[x].dtype != "object"]
 str_cols = [x for x in data.columns if data[x].dtype == "object"]
+
+
+# ------------------------------------------------------------------------------
 
 # analysis by castle
 num_cols_castle = num_cols
@@ -54,7 +61,9 @@ data_castle_grouped = data_castle.groupby("Castle").sum()
 # remove castle "neutral" since this castle not playable
 data_castle_grouped.drop("Neutral", inplace=True)
 
-data_castle_grouped.drop(['Level', 'Ranged', 'Flying', 'AI_Value'], axis=1, inplace=True)
+data_castle_grouped.drop(
+    ["Level", "Ranged", "Flying", "AI_Value"], axis=1, inplace=True
+)
 
 # plot horizontal barcharts for each column
 for idx, col in enumerate(data_castle_grouped.columns):
