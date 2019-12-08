@@ -8,7 +8,6 @@ Created on Sat Nov 30 18:40:33 2019
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 # import raw data
 data = pd.read_csv(r"data/H3Units.csv")
@@ -64,14 +63,14 @@ fig.colorbar(cax)
 
 # x tick labels
 ax.xaxis.set_ticks_position("bottom")
-tick_marks = [i for i in range(len(data.columns))]
+tick_marks = [i for i in range(len(data_corr.columns))]
 plt.xticks(tick_marks, data_corr.columns)
 
 # Rotate x tick labels & set alignment
 plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
 
 # y tick labels
-plt.yticks(tick_marks, data.columns)
+plt.yticks(tick_marks, data_corr.columns)
 
 # Loop over DataFrame and set text labels in each tile
 for i in range(len(data_corr.columns)):
@@ -90,7 +89,7 @@ ax.set_title("Correlation Matrix (Pearson)")
 fig.tight_layout()
 
 # output plot
-fig.savefig(r"plots/corrplot.png")
+# fig.savefig(r"plots/corrplot.png")
 plt.show()
 
 # -----------------------------------------------------------------------------
