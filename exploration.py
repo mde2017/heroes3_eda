@@ -53,23 +53,45 @@ str_cols = [x for x in data.columns if data[x].dtype == "object"]
 
 
 # compute pearson correlations
-corr_matrix = data[num_cols].corr(method="pearson")
+data_corr = data[num_cols].corr(method="pearson")
 
-# plot correlation matrix
-corrplot = sns.heatmap(
-    corr_matrix,
-    vmin=-1, vmax=1, center=0,
-    cmap=sns.diverging_palette(240, 10, n=200),
-    square=True
-)
-corrplot.set_xticklabels(
-    corrplot.get_xticklabels(),
-    rotation=45,
-    horizontalalignment='right'
-)
+# plotting
+fig, ax = plt.subplots()
+cax = ax.matshow(data_corr, cmap="RdBu_r")
 
-# save corrplot as png
-corrplot.figure.savefig(r"plots/corrplot.png")
+# legend
+fig.colorbar(cax)
+
+# x tick labels
+ax.xaxis.set_ticks_position("bottom")
+tick_marks = [i for i in range(len(data.columns))]
+plt.xticks(tick_marks, data_corr.columns)
+
+# Rotate x tick labels & set alignment
+plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
+
+# y tick labels
+plt.yticks(tick_marks, data.columns)
+
+# Loop over DataFrame and set text labels in each tile
+for i in range(len(data_corr.columns)):
+    for j in range(len(data_corr.columns)):
+        text = ax.text(
+            j,
+            i,
+            round(data_corr.values[i, j], 1),
+            ha="center",
+            va="center",
+            color="black",
+        )
+
+# title label
+ax.set_title("Correlation Matrix (Pearson)")
+fig.tight_layout()
+
+# output plot
+fig.savefig(r"plots/corrplot.png")
+plt.show()
 
 # -----------------------------------------------------------------------------
 
