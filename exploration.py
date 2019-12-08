@@ -87,9 +87,10 @@ for i in range(len(data_corr.columns)):
 # title label
 ax.set_title("Correlation Matrix (Pearson)")
 fig.tight_layout()
+ fig.set_size_inches(18.5, 10.5, forward=True)
 
 # output plot
-# fig.savefig(r"plots/corrplot.png")
+fig.savefig(r"plots/corrplot.png", dpi=100, bbox_inches="tight", pad_inches=0)
 plt.show()
 
 # -----------------------------------------------------------------------------
