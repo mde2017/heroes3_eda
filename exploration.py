@@ -87,7 +87,7 @@ for i in range(len(data_corr.columns)):
 # title label
 ax.set_title("Correlation Matrix (Pearson)")
 fig.tight_layout()
- fig.set_size_inches(18.5, 10.5, forward=True)
+fig.set_size_inches(18.5, 10.5, forward=True)
 
 # output plot
 fig.savefig(r"plots/corrplot.png", dpi=100, bbox_inches="tight", pad_inches=0)
@@ -155,3 +155,19 @@ for idx, col in enumerate(data_castle_grouped.columns):
 fig.savefig(
     r"plots/stats_by_castle.png", dpi=100, bbox_inches="tight", pad_inches=0
 )
+
+
+# compute ranking of castle for each numerical column used beforehand
+ranks = pd.DataFrame()
+for idx, col in enumerate(data_castle_grouped.columns):
+    # sorted values
+    asc = False
+    if col == "Gold":
+        asc = True
+
+    ranks[col] = data_castle_grouped[col].rank(ascending=asc)
+
+total_ranks = ranks.sum(axis=1).sort_values()
+print(total_ranks)
+print(f"Best Castle: {total_ranks.idxmin(axis=1)}")
+print(f"Worst Castle: {total_ranks.idxmax(axis=1)}")
